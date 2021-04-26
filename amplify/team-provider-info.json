@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-whoisthat-dev-184902-authRole",
+      "UnauthRoleArn": "arn:aws:iam::816665528703:role/amplify-whoisthat-dev-184902-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::816665528703:role/amplify-whoisthat-dev-184902-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-whoisthat-dev-184902-deployment",
+      "UnauthRoleName": "amplify-whoisthat-dev-184902-unauthRole",
+      "StackName": "amplify-whoisthat-dev-184902",
+      "StackId": "arn:aws:cloudformation:us-east-2:816665528703:stack/amplify-whoisthat-dev-184902/2abe4350-998e-11eb-b5f2-06d1677f4214",
+      "AmplifyAppId": "d2edmrjw30ghlv"
+    },
+    "categories": {
+      "auth": {
+        "whoisthat908f673d": {}
+      },
+      "function": {
+        "whoislambda": {
+          "deploymentBucketName": "amplify-whoisthat-dev-184902-deployment",
+          "s3Key": "amplify-builds/whoislambda-3772555a4278315a6e4c-build.zip"
+        }
+      }
+    }
+  }
+}

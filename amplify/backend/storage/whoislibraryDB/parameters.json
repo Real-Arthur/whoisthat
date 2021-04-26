@@ -1,0 +1,7 @@
+{
+    "tableName": "whoislibraryDB",
+    "partitionKeyName": "User",
+    "partitionKeyType": "S",
+    "sortKeyName": "Movie",
+    "sortKeyType": "S"
+}
