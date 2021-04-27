@@ -76,17 +76,18 @@ const CastList = (props) => {
       >
         {/* <View style={styles.centeredView}> */}
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>How Do I Know {props.item.name}?</Text>
-            <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.profile_path}`}} // Use item to set the image source
-              key={props.item.id} // Important to set a key for list items
-              style={styles.modalImage}
-            />
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setIsModal(!isModal)}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
+            <Text style={styles.modalText}>How Do I Know {props.item.name}?</Text>
+            <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.profile_path}`}} // Use item to set the image source
+              key={props.item.id} // Important to set a key for list items
+              style={styles.modalImage}
+            />
+
             {isIn && 
               <FlatList
                 data={seenInList}
@@ -94,8 +95,10 @@ const CastList = (props) => {
                 renderItem={({ item }) => (
                   <Person item={item} />
                 )}
+                contentContainerStyle={{ paddingEnd: 50 }}
               />
             }
+            
           </View>
         {/* </View> */}
       </Modal>
@@ -118,7 +121,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   modalView: {
-    padding: windowHeight * 0.05,
+    paddingTop: windowHeight * 0.05,
+    paddingBottom: windowHeight * 0.35,
     alignItems: "center",
   },
   modalImage: {

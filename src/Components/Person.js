@@ -8,7 +8,16 @@ const Person = (props) => {
 
   return (
     <View>
-      <Text>{item.character} in {item.title}</Text>
+      <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.poster}`}} // Use item to set the image source
+        key={props.item.id} // Important to set a key for list items
+        style={{
+          width:100,
+          height:100,
+          resizeMode:'contain',
+          margin:8
+        }}
+      />
+      <Text>{props.item.character} in {props.item.title}</Text>
     </View>
   );
 };
@@ -58,4 +67,4 @@ const styles = StyleSheet.create({
 });
 
  
-export default connect(Person);
+export default Person;

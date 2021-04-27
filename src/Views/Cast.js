@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, Button, Dimensions, SafeAreaView, Text } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
@@ -28,9 +28,17 @@ const CastScreen = (props) => {
       console.log('error signing out: ', error);
     }
   };
+
+  const backToSearch = () => {
+
+  }
   
   return (
     <SafeAreaView>
+        <Button 
+          title="Back"
+          onPress={() => props.navigation.goBack()} 
+          />
         <Text>Cast List Of {movie}</Text>
         <FlatList
           data={castList}
