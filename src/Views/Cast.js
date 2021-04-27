@@ -3,6 +3,8 @@ import { StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
+import { FlatList } from 'react-native-gesture-handler';
+import CastList from '../Components/CastList';
 const { width } = Dimensions.get('window');
 
 const CastScreen = (props) => {
@@ -11,7 +13,8 @@ const CastScreen = (props) => {
   const [movie, setMovie] = useState('');
   const [castList, setCastList] = useState([]);
   useEffect(() => {
-    
+    setMovie(props.route.params.movie.title);
+    setCastList(props.route.params.movieCast)
   }, [props.route.params.movie])
   const signOut = async () => {
     try {
@@ -23,7 +26,15 @@ const CastScreen = (props) => {
   
   return (
     <SafeAreaView>
-        <Text>Cast List Of </Text>
+        <Text>Cast List Of {movie}</Text>
+        <FlatList
+          data={castList}
+          extraData={movie}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <CastList item={item} navigation={props.navigation}/>
+          )}
+        />
     </SafeAreaView>
   );
 };
