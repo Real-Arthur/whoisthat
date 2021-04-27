@@ -1,11 +1,52 @@
-import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image, Dimensions } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import Person from './Person';
 // redux related
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
+// window dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const CastList = (props) => {
-  const [isModal, setIsModal] = useState(false);
+    const [isModal, setIsModal] = useState(false);
+    const [isIn, setIsIn] = useState(false);
+    const [seenInList, setSeenIsInList] = useState([]);
+  // console.log('cl', props.item.id)
+  // console.log('cl', props.item.character)
+  // console.log('cl', props.item.name)
+
+  useEffect(() => {
+    inLibraryCheck();
+  }, [])
+
+  const inLibraryCheck = () => {
+    let check = false;
+    let checkList = [];
+    for(let item of props.store.libraryReducer) {
+      for(let item2 of item['Cast']) {
+        // console.log('ee', item2.name)
+        // console.log('ee', item2.id)
+        if(item2.id === props.item.id) {
+          console.log(item2.name);
+          console.log('as', item2.character);
+          console.log('in', item['Title']);
+          checkList.push({
+            name: item2.name,
+            character: item2.character,
+            title: item['Title'],
+            poster: item['Poster'],
+            id: item['Movie']
+          })
+          check = true
+        }
+      }
+    }
+    setIsIn(check);
+    setSeenIsInList(checkList);
+  }
+
   return (
     <View>
     <TouchableOpacity onPress={()=> setIsModal(!isModal)}>
@@ -23,7 +64,7 @@ const CastList = (props) => {
     <Text>{props.item.name} as {props.item.character}</Text>
     </TouchableOpacity>
 
-    <View style={styles.centeredView}>
+    <View style={styles.modalContainer}>
       <Modal
         animationType="fade"
         presentationStyle="fullScreen"
@@ -33,27 +74,30 @@ const CastList = (props) => {
           setIsModal(!isModal);
         }}
       >
-        <View style={styles.centeredView}>
+        {/* <View style={styles.centeredView}> */}
           <View style={styles.modalView}>
+            <Text style={styles.modalText}>How Do I Know {props.item.name}?</Text>
             <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.profile_path}`}} // Use item to set the image source
               key={props.item.id} // Important to set a key for list items
               style={styles.modalImage}
             />
-            <Text style={styles.modalText}>{props.item.name}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setIsModal(!isModal)}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setIsModal(!isModal)}
-            >
-              <Text style={styles.textStyle}>How Do I know them?</Text>
-            </Pressable>
+            {isIn && 
+              <FlatList
+                data={seenInList}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                  <Person item={item} />
+                )}
+              />
+            }
           </View>
-        </View>
+        {/* </View> */}
       </Modal>
     </View>
     </View>
@@ -61,6 +105,12 @@ const CastList = (props) => {
 };
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   centeredView: {
     flex: 1,
     flexDirection: 'column',
@@ -68,27 +118,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   modalView: {
-    width: 300,
-    height: 300,
-    // margin: 20,
-    // backgroundColor: "white",
-    // borderRadius: 20,
-    // padding: 35,
-    // alignItems: "center",
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5
+    padding: windowHeight * 0.05,
+    alignItems: "center",
   },
   modalImage: {
-    width:200,
-    height:200,
-    borderWidth:2,
-    borderColor:'#d35647',
+    width: 200,
+    height: 200,
     resizeMode:'contain',
   },
   button: {

@@ -12,34 +12,16 @@ import Titles from './Titles';
 
 
 const APITitleSearch = (props) => {
-  console.log('l', props.navigation);
-  
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [libraryList, setLibraryList] = useState([]);
   const window = useWindowDimensions();
-/*
-  console.log('Title props id', typeof props.item.id);
-  console.log('Title props id', props.item.title);
-  let library = props['library']
-  console.log('lib', library);
-  for (let movie of library) {
-    console.log('movie', typeof movie['Movie']);
-    if(movie['Movie'] === String(props.item.id)) {
-      console.log('yes');
-      setInLibrary(true)
-    } else {
-      console.log('no');
-    }
-  }
-  */
+
  let libraryIndices = [];
 props.store.libraryReducer.map(item => {
   libraryIndices.push(Number(item['Movie']))
  });
  
-
-
   //// tmdb-api /////
   useEffect(() => {
     if(query.length > 0) {
@@ -67,7 +49,7 @@ props.store.libraryReducer.map(item => {
     setQuery('');
     setResults([]);
   }
-  console.log('libraryIndices', libraryIndices);
+  // console.log('libraryIndices', libraryIndices);
   
     return (
       <View style={{width: window.width}}>

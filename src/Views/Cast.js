@@ -8,14 +8,19 @@ import CastList from '../Components/CastList';
 const { width } = Dimensions.get('window');
 
 const CastScreen = (props) => {
-  console.log('castscreen movie -', props.route.params.movie);
-  console.log('castscreen movie cast-', props.route.params.movieCast);
+  // console.log('castscreen movie -', props.route.params.movie);
+  // console.log('castscreen movie cast-', props.route.params.movieCast);
+  // console.log('lib', props.store.libraryReducer);
+  
+  // const [library, setLibrary] = useState([]);
   const [movie, setMovie] = useState('');
   const [castList, setCastList] = useState([]);
   useEffect(() => {
     setMovie(props.route.params.movie.title);
-    setCastList(props.route.params.movieCast)
-  }, [props.route.params.movie])
+    setCastList(props.route.params.movieCast);
+    // setLibrary(props.store.libraryReducer);
+  }, [props.route.params.movie]);
+  
   const signOut = async () => {
     try {
       await Auth.signOut({ global: true });

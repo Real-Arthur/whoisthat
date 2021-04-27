@@ -38,6 +38,31 @@ const LibraryScreen = (props) => {
      return () => mounted = false;
   }
 
+  const getSomething = () => {
+    let mounted = true;
+    const apiName = 'whoisrestapi';
+    const path = `/library/6590bdcc-bbb8-4c32-b68e-3c8c571a5639`;
+    const myInit = { // OPTIONAL
+        User: props.store.user
+    };
+    API
+      .get(apiName, path, myInit)
+      .then(response => {
+        if(mounted) {
+          // console.log('library response dig in', response);
+          setResults(response);
+          props.dispatch({
+            type: 'SET_LIBRARY',
+            payload: response
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error);
+     });
+     return () => mounted = false;
+  }
+
   const signOut = async () => {
     try {
       await Auth.signOut({ global: true });

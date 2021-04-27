@@ -7,8 +7,6 @@ import APITitleSearch from '../Components/APITitleSearch';
 const { width } = Dimensions.get('window');
 
 const HomeScreen = (props) => {
-  console.log('p', props.navigation);
-  
   Auth.currentUserInfo()
     .then(data => {
      console.log(data.attributes.sub)
