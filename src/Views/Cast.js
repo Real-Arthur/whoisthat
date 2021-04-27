@@ -1,25 +1,18 @@
-import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Dimensions, SafeAreaView, Text } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
-import APITitleSearch from '../Components/APITitleSearch';
 const { width } = Dimensions.get('window');
 
-const HomeScreen = (props) => {
-  console.log('p', props.navigation);
-  
-  Auth.currentUserInfo()
-    .then(data => {
-     console.log(data.attributes.sub)
-     props.dispatch({
-       type: 'CREATE_USER',
-       payload: data.attributes.sub
-     })
-    })
-    .catch(err => console.log(err));
-  
-
+const CastScreen = (props) => {
+  console.log('castscreen movie -', props.route.params.movie);
+  console.log('castscreen movie cast-', props.route.params.movieCast);
+  const [movie, setMovie] = useState('');
+  const [castList, setCastList] = useState([]);
+  useEffect(() => {
+    
+  }, [props.route.params.movie])
   const signOut = async () => {
     try {
       await Auth.signOut({ global: true });
@@ -29,9 +22,9 @@ const HomeScreen = (props) => {
   };
   
   return (
-    <View style={styles.container}>
-        <APITitleSearch navigation={props.navigation}/>
-    </View>
+    <SafeAreaView>
+        <Text>Cast List Of </Text>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -65,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
  
-export default connect(mapStoreToProps)(HomeScreen);
+export default connect(mapStoreToProps)(CastScreen);

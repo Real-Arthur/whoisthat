@@ -59,7 +59,7 @@ const Titles = (props) => {
         })
       })
 
-      console.log('addtolibrary', user, movie);
+      console.log('addtolibrary', castList);
       ////
       const apiName = 'whoisrestapi'; // replace this with your api name.
       const path = '/library'; //replace this with the path you have configured on your API
@@ -83,12 +83,39 @@ const Titles = (props) => {
       });
     ////
     }).catch(err => {
-      console.log('err', err);
+      console.log('err setasseen', err);
     })
   }
 
   const gotToCast = () => {
-    props.navigation.navigate('Cast');
+    axios({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/movie/${props.item.id}/credits`,
+      params: {
+        api_key: '36bae393f2101cebae067cf801a8fab7',
+      }
+    }).then(response => {
+      // console.log('Titles API cast response', response.data.cast);
+      let castList = [];
+      response.data.cast.map(item => {
+        // console.log('people', item.character, item.id, item.name, item.profile_path);
+        castList.push({
+          character: item.character,
+          id: item.id,
+          name: item.name,
+          profile_path: item.profile_path
+        })
+      })
+      // sends movie and cast list to castscreen
+      // and navigates to castscreen
+        props.navigation.navigate('Cast', {
+        movie: props.item,
+        movieCast: castList
+      });
+      setIsModal(!isModal)
+    }).catch(err => {
+      console.log('err gotocast', err);
+    })
   }
 
   return (

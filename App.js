@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './src/Views/Home';
 import LibraryScreen from './src/Views/Library';
-import Cast from './src/Views/Cast';
+import CastScreen from './src/Views/Cast';
 
 // aws and aws accessories
 import Amplify from 'aws-amplify';
@@ -74,7 +74,7 @@ function App( {} ) {
         },
       }}>
         <Stack.Screen name='Tabs' component={NavigatorTabs}/>
-      <Stack.Screen name="Cast" component={Cast}/>
+      <Stack.Screen name="Cast" component={CastScreen}/>
       </Stack.Navigator>
 
     </NavigationContainer>
