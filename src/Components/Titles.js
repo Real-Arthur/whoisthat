@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image } from "react-native";
 import { API } from 'aws-amplify';
+import {API_KEY} from '@env';
 import axios from 'axios';
 // redux related
 import { connect } from 'react-redux';
@@ -44,7 +45,7 @@ const Titles = (props) => {
       method: 'GET',
       url: `https://api.themoviedb.org/3/movie/${props.item.id}/credits`,
       params: {
-        api_key: '36bae393f2101cebae067cf801a8fab7',
+        api_key: API_KEY,
       }
     }).then(response => {
       // console.log('Titles API cast response', response.data.cast);
@@ -92,7 +93,7 @@ const Titles = (props) => {
       method: 'GET',
       url: `https://api.themoviedb.org/3/movie/${props.item.id}/credits`,
       params: {
-        api_key: '36bae393f2101cebae067cf801a8fab7',
+        api_key: API_KEY,
       }
     }).then(response => {
       // console.log('Titles API cast response', response.data.cast);

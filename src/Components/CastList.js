@@ -66,7 +66,7 @@ const CastList = (props) => {
 
     <View style={styles.modalContainer}>
       <Modal
-        animationType="fade"
+        animationType="slide"
         presentationStyle="fullScreen"
         visible={isModal}
         onRequestClose={() => {
@@ -91,7 +91,7 @@ const CastList = (props) => {
             {isIn && 
               <FlatList
                 data={seenInList}
-                keyExtractor={item => item.id}
+                keyExtractor={item => String(item.id)}
                 renderItem={({ item }) => (
                   <Person item={item} />
                 )}

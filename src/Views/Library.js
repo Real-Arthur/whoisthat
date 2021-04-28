@@ -14,9 +14,10 @@ const LibraryScreen = (props) => {
   }, [])
 
   const getLibrary = () => {
+    console.log('props', props.store.userReducer)
     let mounted = true;
     const apiName = 'whoisrestapi';
-    const path = `/library/6590bdcc-bbb8-4c32-b68e-3c8c571a5639`;
+    const path = `/library/${props.store.userReducer}`;
     const myInit = { // OPTIONAL
         User: props.store.user
     };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {API_KEY} from '@env';
 import axios from 'axios';
 import { View, useWindowDimensions } from 'react-native';
 import { TextInput } from 'react-native';
@@ -29,7 +30,7 @@ props.store.libraryReducer.map(item => {
         method: 'GET',
         url: `https://api.themoviedb.org/3/search/movie`,
         params: {
-          api_key: '36bae393f2101cebae067cf801a8fab7',
+          api_key: API_KEY,
           query: query,
           page: 1
         }
