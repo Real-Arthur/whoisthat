@@ -9,7 +9,7 @@ const { width } = Dimensions.get('window');
 const HomeScreen = (props) => {
   Auth.currentUserInfo()
     .then(data => {
-     console.log(data.attributes.sub)
+    //  console.log(data.attributes.sub)
      props.dispatch({
        type: 'CREATE_USER',
        payload: data.attributes.sub

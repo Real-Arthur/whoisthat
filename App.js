@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HomeScreen from './src/Views/Home';
 import LibraryScreen from './src/Views/Library';
 import CastScreen from './src/Views/Cast';
+import Filmography from './src/Views/Filmography';
 
 // aws and aws accessories
 import Amplify from 'aws-amplify';
@@ -74,7 +75,8 @@ function App( {} ) {
         },
       }}>
         <Stack.Screen name='Tabs' component={NavigatorTabs}/>
-      <Stack.Screen name="Cast" component={CastScreen}/>
+        <Stack.Screen name="Cast" component={CastScreen}/>
+        <Stack.Screen name="Filmography" component={Filmography}/>
       </Stack.Navigator>
 
     </NavigationContainer>

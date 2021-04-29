@@ -19,7 +19,7 @@ const CastList = (props) => {
 
   useEffect(() => {
     inLibraryCheck();
-  }, [])
+  }, [props.store.libraryReducer])
 
   const inLibraryCheck = () => {
     let check = false;
@@ -29,9 +29,9 @@ const CastList = (props) => {
         // console.log('ee', item2.name)
         // console.log('ee', item2.id)
         if(item2.id === props.item.id) {
-          console.log(item2.name);
-          console.log('as', item2.character);
-          console.log('in', item['Title']);
+          // console.log(item2.name);
+          // console.log('as', item2.character);
+          // console.log('in', item['Title']);
           checkList.push({
             name: item2.name,
             character: item2.character,
@@ -45,6 +45,13 @@ const CastList = (props) => {
     }
     setIsIn(check);
     setSeenIsInList(checkList);
+  }
+
+  const seeMoreOf = (person) => {
+    props.navigation.push('Filmography', {
+      person: person
+    });
+    setIsModal(!isModal);
   }
 
   return (
@@ -76,12 +83,21 @@ const CastList = (props) => {
       >
         {/* <View style={styles.centeredView}> */}
           <View style={styles.modalView}>
+
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => seeMoreOf(props.item)}
+            >
+              <Text style={styles.textStyle}>See More {props.item.name}</Text>
+            </Pressable> 
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setIsModal(!isModal)}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
+
             <Text style={styles.modalText}>How Do I Know {props.item.name}?</Text>
             <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.profile_path}`}} // Use item to set the image source
               key={props.item.id} // Important to set a key for list items

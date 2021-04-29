@@ -8,6 +8,8 @@ import CastList from '../Components/CastList';
 const { width } = Dimensions.get('window');
 
 const CastScreen = (props) => {
+  // console.log('cs props', props.navigation);
+  
   // console.log('castscreen movie -', props.route.params.movie);
   // console.log('castscreen movie cast-', props.route.params.movieCast);
   // console.log('lib', props.store.libraryReducer);
@@ -28,10 +30,6 @@ const CastScreen = (props) => {
       console.log('error signing out: ', error);
     }
   };
-
-  const backToSearch = () => {
-
-  }
   
   return (
     <SafeAreaView>

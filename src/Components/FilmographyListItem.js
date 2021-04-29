@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image } from "react-native";
-import { API } from 'aws-amplify';
-import {API_KEY} from '@env';
 import axios from 'axios';
+import {API_KEY} from '@env';
+import { API } from 'aws-amplify';
 // redux related
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
 
-const Titles = (props) => {  
+const FilmographyListItem = (props) => {
+  // console.log('FiLiItem', props.item);
+  
   const [isModal, setIsModal] = useState(false);
-
   let isInLibrary = props.libraryIndices.includes(props.item.id);
   let user = props.user;
   let movie = props.item.id.toString();
@@ -39,7 +40,38 @@ const Titles = (props) => {
      });
      return () => mounted = false;
   }
- 
+  
+  const gotToCast = (movie, id) => {
+    axios({
+      method: 'GET',
+      url: `https://api.themoviedb.org/3/movie/${id}/credits`,
+      params: {
+        api_key: API_KEY,
+      }
+    }).then(response => {
+      // console.log('Titles API cast response', response.data.cast);
+      let castList = [];
+      response.data.cast.map(item => {
+        // console.log('people', item.character, item.id, item.name, item.profile_path);
+        castList.push({
+          character: item.character,
+          id: item.id,
+          name: item.name,
+          profile_path: item.profile_path
+        })
+      })
+      // sends movie and cast list to castscreen
+      // and navigates to castscreen
+        props.navigation.navigate('Cast', {
+        movie: movie,
+        movieCast: castList
+      });
+      setIsModal(!isModal)
+    }).catch(err => {
+      console.log('err gotocast', err);
+    })
+  }
+
   const setAsSeen = () => {
     axios({
       method: 'GET',
@@ -76,7 +108,7 @@ const Titles = (props) => {
       API
       .post(apiName, path, myInit)
       .then(response => {
-      console.log('response', 200);
+      // console.log('response', 200);
       getLibrary();
       })
       .catch(error => {
@@ -88,40 +120,9 @@ const Titles = (props) => {
     })
   }
 
-  const gotToCast = (movie, id) => {
-    axios({
-      method: 'GET',
-      url: `https://api.themoviedb.org/3/movie/${id}/credits`,
-      params: {
-        api_key: API_KEY,
-      }
-    }).then(response => {
-      // console.log('Titles API cast response', response.data.cast);
-      let castList = [];
-      response.data.cast.map(item => {
-        // console.log('people', item.character, item.id, item.name, item.profile_path);
-        castList.push({
-          character: item.character,
-          id: item.id,
-          name: item.name,
-          profile_path: item.profile_path
-        })
-      })
-      // sends movie and cast list to castscreen
-      // and navigates to castscreen
-        props.navigation.navigate('Cast', {
-        movie: movie,
-        movieCast: castList
-      });
-      setIsModal(!isModal)
-    }).catch(err => {
-      console.log('err gotocast', err);
-    })
-  }
-
+  
   return (
-    <View className={isInLibrary && styles.inLibrary }>
-
+    <View>
     <TouchableOpacity onPress={()=> setIsModal(!isModal)}>
     <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.poster_path}`}} // Use item to set the image source
     key={props.item.id} // Important to set a key for list items
@@ -134,12 +135,12 @@ const Titles = (props) => {
       margin:8
     }}
     />
-    <Text>{props.item.title}</Text>
+    <Text>{props.item.character} in {props.item.original_title}</Text>
     </TouchableOpacity>
 
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={isModal}
         onRequestClose={() => {
@@ -149,7 +150,7 @@ const Titles = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.poster_path}`}} // Use item to set the image source
+            <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.backdrop_path}`}} // Use item to set the image source
               key={props.item.id} // Important to set a key for list items
               style={{
                 width:200,
@@ -160,13 +161,23 @@ const Titles = (props) => {
                 margin:8
               }}
             />
-            <Text style={styles.modalText}>{props.item.title}</Text>
+            <Text style={styles.modalText}>{props.item.original_title}</Text>
+            <Text style={styles.modalText}>{props.item.overview}</Text>
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setIsModal(!isModal)}
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
+
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => gotToCast(props.item, props.item.id)}
+            >
+              <Text style={styles.textStyle}>See Cast Of {props.item.original_title}</Text>
+            </Pressable>
+
             { isInLibrary 
               ?
                 <Pressable
@@ -183,17 +194,11 @@ const Titles = (props) => {
                   <Text style={styles.textStyle}>Mark As Seen</Text>
                 </Pressable>
             }
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => gotToCast(props.item, props.item.id)}
-              >
-                <Text style={styles.textStyle}>See Cast</Text>
-            </Pressable>
+
           </View>
         </View>
       </Modal>
     </View>
-
     </View>
   );
 };
@@ -239,12 +244,6 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  },
-  inLibrary: {
-    backgroundColor: 'red'
-  },
-  notInLibrary: {
-    backgroundColor: 'blue'
   }
 });
 
@@ -253,4 +252,4 @@ const mapStateToProps = (state) => {
   return { library, user }
 };
  
-export default connect(mapStoreToProps)(Titles);
+export default connect(mapStoreToProps)(FilmographyListItem);

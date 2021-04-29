@@ -11,10 +11,10 @@ const LibraryScreen = (props) => {
   const test = 'working';
   useEffect(() => {
     getLibrary();
-  }, [])
+  }, [props.store.userReducer])
 
   const getLibrary = () => {
-    console.log('props', props.store.userReducer)
+    // console.log('props', typeof props.store.userReducer)
     let mounted = true;
     const apiName = 'whoisrestapi';
     const path = `/library/${props.store.userReducer}`;

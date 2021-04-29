@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 
 function* setActiveUser(action) {
-  console.log('active', action.payload);
+  // console.log('active', action.payload);
   yield put({
     type: 'SET_USER',
     payload: action.payload
