@@ -41,7 +41,7 @@ const CastScreen = (props) => {
         <FlatList
           data={castList}
           extraData={movie}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
             <CastList item={item} navigation={props.navigation}/>
           )}

@@ -22,7 +22,7 @@ const FilmographyList = (props) => {
       <View style={{width: window.width}}>
         <FlatList 
           data={props.results}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
             <FilmographyListItem item={item} user={props.store.userReducer} navigation={props.navigation} libraryIndices={libraryIndices}/>
           )}
