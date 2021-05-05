@@ -133,7 +133,7 @@ const Titles = (props) => {
       margin:8
     }}
     />
-    <Text>{props.item.title}</Text>
+    <Text style={styles.titleText}>{props.item.title}</Text>
     </TouchableOpacity>
 
     <View style={styles.centeredView}>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     // marginTop: 22
   },
   modalView: {
@@ -247,7 +247,12 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 20
+  },
+  titleText: {
+    fontSize: 20,
+    flexWrap: "wrap"
   },
   inLibrary: {
     backgroundColor: 'red'

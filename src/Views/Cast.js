@@ -33,7 +33,7 @@ const CastScreen = (props) => {
   
   return (
     <View>
-        <Text>Cast List Of {movie}</Text>
+        <Text style={styles.titleText}>Cast List Of {movie}</Text>
         <FlatList
           data={castList}
           extraData={movie}
@@ -48,7 +48,7 @@ const CastScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     width: width,
     paddingVertical: 20,
@@ -73,6 +73,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
+  },
+  titleText: {
+    fontSize: 15,
   },
 });
  
