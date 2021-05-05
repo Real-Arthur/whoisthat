@@ -1,29 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import {API_KEY} from '@env';
-import axios from 'axios';
-import { View, useWindowDimensions } from 'react-native';
+// react/native imports
+import React, { 
+  useEffect, 
+  useState 
+} from 'react';
+import { 
+  View, 
+  useWindowDimensions 
+} from 'react-native';
 import { TextInput } from 'react-native';
 import { FlatList } from 'react-native';
+
 // redux related
 import { connect } from 'react-redux';
-import mapStoreToProps from '../../mapStoreToProps';
-// aws
-import { Auth } from 'aws-amplify';
+
+// internal imports
 import Titles from './Titles';
+import mapStoreToProps from '../../mapStoreToProps';
 
+// Misc.
+import { API_KEY } from '@env';
+import axios from 'axios';
 
+// handles searching of TMDB for movie titles
+// child of Home.js
 const APITitleSearch = (props) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [libraryList, setLibraryList] = useState([]);
   const window = useWindowDimensions();
 
- let libraryIndices = [];
-props.store.libraryReducer.map(item => {
-  libraryIndices.push(Number(item['Movie']))
- });
+  // finds ids of movies in library
+  // passes array to Titles
+  let libraryIndices = [];
+  props.store.libraryReducer.map(item => {
+    libraryIndices.push(Number(item['Movie']))
+  });
  
   //// tmdb-api /////
+  // queries tmdb for titles
+  // fires on query change
   useEffect(() => {
     if(query.length > 0) {
       axios({
@@ -63,15 +77,23 @@ props.store.libraryReducer.map(item => {
           value={query}
           onChangeText={queryText => setQuery(queryText)}
           placeholder="Search"
-          style={{ backgroundColor: '#fff', paddingHorizontal: 20 }}
+          style={{ 
+            backgroundColor: '#fff', 
+            paddingHorizontal: 20,
+          }}
         />
         <FlatList
           data={results}
           extraData={query}
           numColumns="2"
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <Titles item={item} user={props.store.userReducer} libraryIndices={libraryIndices} navigation={props.navigation}/>
+            <Titles 
+              item={item} 
+              user={props.store.userReducer} 
+              libraryIndices={libraryIndices} 
+              navigation={props.navigation}
+            />
           )}
         />
       </View>

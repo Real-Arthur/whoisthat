@@ -7,6 +7,8 @@ import UserLibraryList from '../Components/UserLibraryList';
 const { width } = Dimensions.get('window');
 
 const LibraryScreen = (props) => {
+  console.log('libscr', props.store.userReducer);
+  
   const [results, setResults] = useState([])
   const test = 'working';
   useEffect(() => {
@@ -42,7 +44,7 @@ const LibraryScreen = (props) => {
   const getSomething = () => {
     let mounted = true;
     const apiName = 'whoisrestapi';
-    const path = `/library/6590bdcc-bbb8-4c32-b68e-3c8c571a5639`;
+    const path = `/library/${props.store.userReducer}`;
     const myInit = { // OPTIONAL
         User: props.store.user
     };

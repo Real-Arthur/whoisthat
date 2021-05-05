@@ -1,12 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image, Dimensions } from "react-native";
+// react/native imports
+import React, { 
+  useState, 
+  useEffect 
+} from "react";
+import { 
+  Alert, 
+  Modal, 
+  StyleSheet, 
+  Text, 
+  Pressable, 
+  View, 
+  TouchableOpacity, 
+  Image, 
+  Dimensions 
+} from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { FlatList } from "react-native-gesture-handler";
-import Person from './Person';
+
 // redux related
 import { connect } from 'react-redux';
+
+// internal imports
+import Person from './Person';
 import mapStoreToProps from '../../mapStoreToProps';
-// window dimensions
-const windowWidth = Dimensions.get('window').width;
+
 const windowHeight = Dimensions.get('window').height;
 
 const CastList = (props) => {
@@ -62,8 +79,6 @@ const CastList = (props) => {
     style={{
       width:200,
       height:200,
-      borderWidth:2,
-      borderColor:'#d35647',
       resizeMode:'contain',
       margin:8
     }}
@@ -85,19 +100,18 @@ const CastList = (props) => {
           <View style={styles.modalView}>
 
             <Pressable
+              style={[styles.button, styles.exitButton]}
+              onPress={() => setIsModal(!isModal)}
+            >
+              <Text style={styles.exitTextStyle}>Close <AntDesign name="close" color="black" size={15}/></Text>
+            </Pressable>
+
+            <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => seeMoreOf(props.item)}
             >
               <Text style={styles.textStyle}>See More {props.item.name}</Text>
-            </Pressable> 
-
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setIsModal(!isModal)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
-
             <Text style={styles.modalText}>How Do I Know {props.item.name}?</Text>
             <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.profile_path}`}} // Use item to set the image source
               key={props.item.id} // Important to set a key for list items
@@ -151,6 +165,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
+  exitButton: {
+    backgroundColor: 'red',
+    marginBottom: 10
+  },
   buttonOpen: {
     backgroundColor: "#F194FF",
   },
@@ -164,6 +182,11 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    textAlign: "center"
+  },
+  exitTextStyle: {
+    color: "black",
+    fontWeight: "bold",
     textAlign: "center"
   }
 });

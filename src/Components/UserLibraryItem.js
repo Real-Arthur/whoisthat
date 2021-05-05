@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image } from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign';
 // redux related
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
@@ -36,6 +37,12 @@ const UserLibraryItem = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Pressable
+              style={[styles.button, styles.exitButton]}
+              onPress={() => setIsModal(!isModal)}
+            >
+              <Text style={styles.exitTextStyle}>Close <AntDesign name="close" color="black" size={15}/></Text>
+            </Pressable>
             <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.profile_path}`}} // Use item to set the image source
               key={props.item.id} // Important to set a key for list items
               style={{
@@ -52,13 +59,7 @@ const UserLibraryItem = (props) => {
               style={[styles.button, styles.buttonClose]}
               onPress={() => setIsModal(!isModal)}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setIsModal(!isModal)}
-            >
-              <Text style={styles.textStyle}>How Do I know them?</Text>
+              <Text style={styles.textStyle}>See Cast</Text>
             </Pressable>
           </View>
         </View>
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -101,14 +102,37 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: "#2196F3",
   },
+  exitButton: {
+    backgroundColor: 'red',
+    marginBottom: 10
+  },
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
   },
+  exitTextStyle: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  inactiveButton: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  inLibrary: {
+    backgroundColor: 'red'
+  },
+  notInLibrary: {
+    backgroundColor: 'blue'
   }
 });
 

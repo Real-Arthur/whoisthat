@@ -36,8 +36,6 @@ const Filmography = (props) => {
   return (
     <SafeAreaView>
       <Text>Films Of {props.route.params.person.name}</Text>
-      <Button title="Back" onPress={() => props.navigation.goBack()}/>
-      <Button title="Back Home" onPress={() => props.navigation.navigate('Home')} />
       <FilmographyList results={results} navigation={props.navigation}/>
     </SafeAreaView>
   );

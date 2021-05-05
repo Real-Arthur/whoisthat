@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, Dimensions, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../mapStoreToProps';
@@ -32,11 +32,7 @@ const CastScreen = (props) => {
   };
   
   return (
-    <SafeAreaView>
-        <Button 
-          title="Back"
-          onPress={() => props.navigation.goBack()} 
-          />
+    <View>
         <Text>Cast List Of {movie}</Text>
         <FlatList
           data={castList}
@@ -46,7 +42,7 @@ const CastScreen = (props) => {
             <CastList item={item} navigation={props.navigation}/>
           )}
         />
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

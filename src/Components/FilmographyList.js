@@ -19,7 +19,7 @@ const FilmographyList = (props) => {
   // console.log('state results', results);
   
     return (
-      <View style={{width: window.width}}>
+      <View style={{width: window.width, marginBottom: 20}}>
         <FlatList 
           data={props.results}
           keyExtractor={item => String(item.id)}

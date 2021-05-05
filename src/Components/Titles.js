@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity, Image } from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { API } from 'aws-amplify';
 import {API_KEY} from '@env';
 import axios from 'axios';
@@ -19,7 +20,7 @@ const Titles = (props) => {
   const getLibrary = () => {
     let mounted = true;
     const apiName = 'whoisrestapi';
-    const path = `/library/6590bdcc-bbb8-4c32-b68e-3c8c571a5639`; 
+    const path = `/library/${props.store.userReducer}`; 
     const myInit = { // OPTIONAL
         User: props.store.user
     };
@@ -123,13 +124,11 @@ const Titles = (props) => {
     <View className={isInLibrary && styles.inLibrary }>
 
     <TouchableOpacity onPress={()=> setIsModal(!isModal)}>
-    <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.poster_path}`}} // Use item to set the image source
+    <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w300${props.item.poster_path}`}} // Use item to set the image source
     key={props.item.id} // Important to set a key for list items
     style={{
       width:200,
       height:200,
-      borderWidth:2,
-      borderColor:'#d35647',
       resizeMode:'contain',
       margin:8
     }}
@@ -149,32 +148,25 @@ const Titles = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Pressable
+              style={[styles.button, styles.exitButton]}
+              onPress={() => setIsModal(!isModal)}
+            >
+              <Text style={styles.exitTextStyle}>Close <AntDesign name="close" color="black" size={15}/></Text>
+            </Pressable>
             <Image source={{uri: `https://image.tmdb.org/t/p/w300${props.item.poster_path}`}} // Use item to set the image source
               key={props.item.id} // Important to set a key for list items
               style={{
                 width:200,
                 height:200,
-                borderWidth:2,
-                borderColor:'#d35647',
                 resizeMode:'contain',
                 margin:8
               }}
             />
             <Text style={styles.modalText}>{props.item.title}</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setIsModal(!isModal)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
             { isInLibrary 
               ?
-                <Pressable
-                style={[styles.button, styles.buttonClose]}
-                
-                >
-                <Text style={styles.textStyle}>In Library</Text>
-                </Pressable> 
+                <Text style={styles.inactiveButton}>Seen <AntDesign name="check" color="green" size={20}/></Text>
               :
                 <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -223,7 +215,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -231,10 +223,27 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: "#2196F3",
   },
+  exitButton: {
+    backgroundColor: 'red',
+    marginBottom: 10
+  },
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
+  },
+  exitTextStyle: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  inactiveButton: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
   },
   modalText: {
     marginBottom: 15,

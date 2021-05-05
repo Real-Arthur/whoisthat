@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, Button } from 'react-native';
+import { Header } from 'react-native-elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeScreen from './src/Views/Home';
 import LibraryScreen from './src/Views/Library';
 import CastScreen from './src/Views/Cast';
@@ -41,17 +42,6 @@ const store = createStore( // mount it on the Store
 sagaMiddleware.run(rootSaga)
 
 function NavigatorTabs() {
-  return(
-  <Tab.Navigator style={{marginTop: 50}}>
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Library" component={LibraryScreen} />
-
-  </Tab.Navigator>
-  )
-}
-
-function App( {} ) {
-
   const signOut = async () => {
     try {
       await Auth.signOut({ global: true });
@@ -59,38 +49,40 @@ function App( {} ) {
       console.log('error signing out: ', error);
     }
   };
+  return(
+  <>
+  <Tab.Navigator>
+    <Tab.Screen name="Home" component={HomeScreen} />
+    <Tab.Screen name="Library" component={LibraryScreen} />
+  </Tab.Navigator>
+  <Button
+  onPress={() => signOut()}
+  title="Log Out"
+  color="#841584"
+  accessibilityLabel="Log Out Button"
+  />
+  </>
+  )
+}
 
+function App( {} ) {
   return (
     <Provider store={store}>
-    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
     <NavigationContainer>
-      <Stack.Navigator 
-      screenOptions={{
-        headerStyle: {
-          height: "0%"
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-        <Stack.Screen name='Tabs' component={NavigatorTabs}/>
+      <Stack.Navigator >
+        <Stack.Screen name='Who is That?' component={NavigatorTabs}/>
         <Stack.Screen name="Cast" component={CastScreen}/>
         <Stack.Screen name="Filmography" component={Filmography}/>
       </Stack.Navigator>
-
-    </NavigationContainer>
-    </SafeAreaProvider>
+    </NavigationContainer></SafeAreaView>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1
   },
   button: {
     backgroundColor: '#ff9900',
